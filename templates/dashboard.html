@@ -2,16 +2,29 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <title>Dashboard</title>
+        <script>
+            function del_record(id) {
+                console.log(id)
+                let res = confirm('You want to delete this record?');
+                if (res == false)
+                    return;
+                let xml = new XMLHttpRequest();
+                xml.open('GET', `/delete_user_record?id=${id}`);
+                xml.send();
+                document.getElementById(id).remove();
+            }
+        </script>
     </head>
     <body>
         <div>
             <ul>
                 {% for i in data %}
-                    <li id="data{{ escape(str(i.id)) }}">{{ escape(i.data) }}</li>
+                    <li onclick="del_record(this.id);" id="{{ escape(str(i.id)) }}">{{ escape(i.data) }}</li>
                 {% end %}
             </ul>
             <br>
-            <form action="/add_user_data" method="post">
+            <form action="/add_user_record" method="post">
                 <input type="text" name="data" required>
                 <p></p>
                 <input type="submit">

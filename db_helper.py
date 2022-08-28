@@ -21,6 +21,15 @@ def get_user(username: str) -> Union[User, None]:
     return res
 
 
+# delete and return user_data
+def delete_user_data(user_id, record_id) -> Union[UserData, None]:
+    if not user_id or not record_id:
+        return None
+    if len((ls := list(UserData.select().where(UserData.user_id == int(user_id) and UserData.id == int(record_id))))) == 0:
+        return None
+    return ls[0].delete_instance()
+
+
 # Create and return UserData
 def add_user_data(user_id, data) -> UserData:
     return UserData.create(user_id=user_id, data=data)

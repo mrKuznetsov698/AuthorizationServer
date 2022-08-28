@@ -17,6 +17,14 @@ class MainHandler(tornado.web.RequestHandler):
             self.redirect('/login')
 
 
+class DeleteUserRecord(tornado.web.RequestHandler):
+    def get(self):
+        token, user_id = get_session_cookies(self)
+        if check_token(token, user_id):
+            delete_user_data(user_id, self.get_argument('id'))
+        self.redirect('/')
+
+
 class AddUserDataHandler(tornado.web.RequestHandler):
     def post(self):
         token, user_id = get_session_cookies(self)
@@ -71,7 +79,8 @@ class SignInHandler(tornado.web.RequestHandler):
 def create_app() -> tornado.web.Application:
     return tornado.web.Application([
         (r"/", MainHandler),
-        (r"/add_user_data", AddUserDataHandler),
+        (r"/add_user_record", AddUserDataHandler),
+        (r"/delete_user_record", DeleteUserRecord),
         (r"/signin", SignInHandler),
         (r"/login", LoginHandler),
         (r"/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static'})
