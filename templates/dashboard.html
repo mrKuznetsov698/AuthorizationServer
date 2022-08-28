@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div>
+            <ul>
+                {% for i in data %}
+                    <li id="data{{ escape(str(i.id)) }}">{{ escape(i.data) }}</li>
+                {% end %}
+            </ul>
+            <br>
+            <form action="/add_user_data" method="post">
+                <input type="text" name="data" required>
+                <p></p>
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>
